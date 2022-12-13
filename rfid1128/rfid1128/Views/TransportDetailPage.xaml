@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="rfid1128.Views.TransportDetailPage"
+             Title="{Binding DisplayName}">
+    <ContentPage.Content>
+        <StackLayout Spacing="0" Padding="0, 12" HorizontalOptions="Center">
+
+            <Grid Padding="4" HorizontalOptions="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.Resources>
+                    <Style x:Key="Column0Style" TargetType="Label" >
+                        <Setter Property="VerticalOptions" Value="Center"/>
+                        <Setter Property="HorizontalTextAlignment" Value="End"/>
+                        <Setter Property="FontAttributes" Value="Italic"/>
+                        <Setter Property="FontSize" Value="Small"/>
+                    </Style>
+                    <Style x:Key="Column1Style" TargetType="Label" >
+                        <Setter Property="VerticalOptions" Value="Center"/>
+                        <Setter Property="FontSize" Value="Small"/>
+                    </Style>
+                </Grid.Resources>
+
+                <Label  Grid.Column="0" Grid.Row="0" Style="{StaticResource Column0Style}" Text="Name:" FontSize="Medium"/>
+                <Label  Grid.Column="1" Grid.Row="0" Style="{StaticResource Column1Style}" Text="{Binding DisplayName}" FontAttributes="Bold" FontSize="Medium"/>
+
+                <Label  Grid.Column="0" Grid.Row="1" Style="{StaticResource Column0Style}" Text="Info:"/>
+                <Label  Grid.Column="1" Grid.Row="1" Style="{StaticResource Column1Style}" Text="{Binding DisplayInfoLine}"/>
+
+                <Label  Grid.Column="0" Grid.Row="2" Style="{StaticResource Column0Style}" Text="State:" Margin="0, 12, 0, 0"/>
+                <Label  Grid.Column="1" Grid.Row="2" Style="{StaticResource Column1Style}" Text="{Binding State}" FontSize="Medium" FontAttributes="Bold" Margin="0, 12, 0, 0"/>
+
+                <Label  Grid.Column="0" Grid.Row="3" Style="{StaticResource Column0Style}" Text="Transport:"/>
+                <Label  Grid.Column="1" Grid.Row="3" Style="{StaticResource Column1Style}" Text="{Binding Transport}"/>
+
+                <Label  Grid.Column="0" Grid.Row="4" Style="{StaticResource Column0Style}" Text="Id:"/>
+                <Label  Grid.Column="1" Grid.Row="4" Style="{StaticResource Column1Style}" Text="{Binding Id}"/>
+            </Grid>
+
+            <StackLayout Orientation="Horizontal" Padding="12" HorizontalOptions="FillAndExpand">
+                <Button Text="Connect" Command="{Binding ConnectCommand}" />
+                <Button Text="Disconnect" Command="{Binding DisconnectCommand}" HorizontalOptions="EndAndExpand"/>
+            </StackLayout>
+            <Button Text="Sleep Connected Reader" Command="{Binding SleepCommand}" HorizontalOptions="Center"/>
+
+            <Button x:Name="forgetButton" Text="Forget" Command="{Binding ForgetCommand}" Margin="12,8" VerticalOptions="EndAndExpand" HorizontalOptions="Center">
+                <Button.Triggers>
+                    <DataTrigger TargetType="Button" Binding="{Binding Source={x:Reference forgetButton}, Path=IsEnabled}" Value="False">
+                        <Setter Property="VisualElement.IsVisible" Value="false" />
+                    </DataTrigger>
+                </Button.Triggers>
+            </Button>
+        </StackLayout>
+    </ContentPage.Content>
+
+</ContentPage>

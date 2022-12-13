@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="rfid1128.Views.TransportsPage"
+              Title="Transports">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Add" Command="{Binding AddNewCommand}" >
+            <!--<ToolbarItem.Icon>
+                <OnPlatform x:TypeArguments="FileImageSource">
+                    <On Platform="UWP" Value="add.png"/>
+                </OnPlatform>
+            </ToolbarItem.Icon>-->
+        </ToolbarItem>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <StackLayout Spacing="0" Padding="0, 4">
+            <ListView x:Name="TransportsListView" 
+                ItemsSource="{Binding Transports}"
+                VerticalOptions="FillAndExpand"
+                HasUnevenRows="true"
+                RefreshCommand="{Binding RefreshTransportsCommand}"
+                IsPullToRefreshEnabled="true"
+                IsRefreshing="{Binding IsRefreshing}"
+                CachingStrategy="RecycleElement"
+                ItemSelected="OnItemSelected"
+                BackgroundColor="#f0f0f8"
+                >
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Spacing="0" Padding="12,4" HorizontalOptions="FillAndExpand">
+                                <StackLayout Orientation="Horizontal">
+                                    <Label Text="{Binding DisplayName }"
+                                           LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}"
+                                           FontSize="Medium" FontAttributes="Bold" />
+                                    <Label Text="{Binding State }"
+                                           LineBreakMode="NoWrap" Style="{DynamicResource ListItemDetailTextStyle}"
+                                           FontSize="Small" FontAttributes="Bold"
+                                           HorizontalOptions="EndAndExpand" />
+                                </StackLayout>
+                                <StackLayout Orientation="Horizontal">
+                                    <Label Text="{Binding DisplayInfoLine }"
+                                           LineBreakMode="NoWrap" Style="{DynamicResource ListItemDetailTextStyle}"
+                                           FontSize="Small" />
+                                    <Label Text="{Binding Transport }"
+                                           LineBreakMode="NoWrap"
+                                           Style="{DynamicResource ListItemDetailTextStyle}"
+                                           FontSize="Small" FontAttributes="Italic"
+                                           HorizontalOptions="EndAndExpand" />
+                                </StackLayout>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <Label Text="Toca un lector para ver sus detalles y conectarlo o desconectarlo."
+                   LineBreakMode="WordWrap"
+                   Style="{DynamicResource ListItemDetailTextStyle}"
+                   FontSize="Medium" FontAttributes="Italic"
+                   HorizontalTextAlignment="Center"
+                   Margin="12,8"
+                   HorizontalOptions="CenterAndExpand"
+                   />
+
+        </StackLayout>
+    </ContentPage.Content>
+
+</ContentPage>

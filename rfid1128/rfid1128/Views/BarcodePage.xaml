@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="rfid1128.Views.BarcodePage"
+             Title="Barcode" >
+    <ContentPage.Padding>
+        <OnPlatform x:TypeArguments="Thickness"
+                iOS="4, 4, 4, 4"
+                Android="4, 4, 4, 4" />
+    </ContentPage.Padding>
+    <ContentPage.Content>
+        <StackLayout>
+            <StackLayout Orientation="Horizontal" VerticalOptions="Fill" HorizontalOptions="FillAndExpand" Spacing="0" Padding="4,0">
+                <Label Text="Barcodes" FontSize="Medium" FontAttributes="Bold" HorizontalOptions="StartAndExpand" VerticalOptions="End"/>
+                <Button Text="Clear" Command="{Binding ClearCommand}" HorizontalOptions="End"/>
+            </StackLayout>
+
+            <ListView ItemsSource="{Binding Barcodes}" CachingStrategy="RecycleElement" SeparatorVisibility="None" HasUnevenRows="true"
+                      BackgroundColor="#f0f0f0">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.View>
+                                <StackLayout Orientation="Vertical" VerticalOptions="Fill"
+                                    HorizontalOptions="FillAndExpand" Spacing="0" Padding="4,0">
+                                    <Label Text="{Binding Identifier}" Margin="4, 4, 4, 0" FontSize="Medium"
+                                           LineBreakMode="TailTruncation"
+                                           HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" />
+                                    <StackLayout Orientation="Horizontal" Spacing="0"
+                                        HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand">
+                                        <!-- Source-->
+                                        <Label Text="{Binding Source, StringFormat='Source: {0}'}" Margin="4, 0" FontSize="Micro" FontAttributes="Italic"
+                                               VerticalOptions="StartAndExpand" VerticalTextAlignment="Center" />
+                                        <Label Text="{Binding SeenCount, StringFormat='Seen: {0,3}'}" Margin="4, 0" FontSize="Micro" FontAttributes="Italic"
+                                               HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End" VerticalOptions="StartAndExpand" VerticalTextAlignment="Center" />
+                                    </StackLayout>
+                                </StackLayout>
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <!-- Host barcode engine 
+            <StackLayout Orientation="Vertical" Spacing="0" Padding="8" IsVisible="{Binding IsHostBarcodeAvailable}">
+                <Label Text="Host Terminal Barcode Scanner" FontSize="Medium" FontAttributes="Bold"/>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="Center">
+                    <Label Text="Enable" VerticalOptions="Center" />
+                    <Switch x:Name="enableHost" IsToggled="{Binding IsHostBarcodeEnabled}" IsEnabled="{Binding IsHostBarcodeAvailable }" VerticalOptions="Center"
+                            Margin="0,0,12,0"/>
+                    <Label Text="Use Double press" HorizontalOptions="End" VerticalOptions="Center"/>
+                    <Switch IsToggled="{Binding IsHostBarcodeSecondary}" IsEnabled="{Binding IsHostBarcodeAvailable }"
+                            HorizontalOptions="End" VerticalOptions="Center">
+                        <Switch.Triggers>
+                            <DataTrigger TargetType="Switch" Binding="{Binding Source={x:Reference enableHost}, Path=IsToggled}" Value="True">
+                                <Setter Property="IsEnabled" Value="False" />
+                            </DataTrigger>
+                        </Switch.Triggers>
+                    </Switch>
+                </StackLayout>
+            </StackLayout> -->
+
+            <!-- Reader barcode engine -->
+            <StackLayout Orientation="Vertical" Spacing="0" Padding="8">
+                <Label Text="Reader Barcode Scanner" FontSize="Medium" FontAttributes="Bold"/>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="Center">
+                    <Label Text="Enable" VerticalOptions="Center"/>
+                    <Switch x:Name="enableReader" IsToggled="{Binding IsReaderBarcodeEnabled}" IsEnabled="{Binding IsReaderBarcodeAvailable }" VerticalOptions="Center"
+                            Margin="0,0,12,0"/>
+                    <Label Text="Use Double press" HorizontalOptions="End" VerticalOptions="Center"/>
+                    <Switch IsToggled="{Binding IsReaderBarcodeSecondary}" IsEnabled="{Binding IsReaderBarcodeAvailable }" HorizontalOptions="End" VerticalOptions="Center">
+                        <Switch.Triggers>
+                            <DataTrigger TargetType="Switch" Binding="{Binding Source={x:Reference enableReader}, Path=IsToggled}" Value="True">
+                                <Setter Property="IsEnabled" Value="False" />
+                            </DataTrigger>
+                        </Switch.Triggers>
+                    </Switch>
+                </StackLayout>
+            </StackLayout>
+
+            <!--<StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" IsVisible="{Binding IsHostBarcodeMock }">
+                <Label Text="Next Barcode"></Label>
+                <Entry Text="{Binding NextBarcode}" />
+                <Label Text="{Binding OperationState}" />
+            </StackLayout>
+            <ListView ItemsSource="{Binding Activity}" CachingStrategy="RecycleElement" SeparatorVisibility="Default" HasUnevenRows="True" >
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.View>
+                                <Label Text="{Binding Path=. }" />
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>-->
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

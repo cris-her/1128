@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="rfid1128.Views.ReadersPage"
+             Title="Readers">
+
+    <ContentPage.Content>
+        <StackLayout Spacing="0">
+            <ListView x:Name="ReadessListView" 
+                ItemsSource="{Binding Readers}"
+                VerticalOptions="FillAndExpand"
+                HasUnevenRows="true"
+                RefreshCommand="{Binding RefreshReadersCommand}"
+                IsPullToRefreshEnabled="false"
+                IsRefreshing="{Binding IsRefreshing}"
+                CachingStrategy="RecycleElement"
+                ItemSelected="OnItemSelected"
+                BackgroundColor="#f0f0f8"
+                >
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Padding="8" Spacing="0">
+                                <StackLayout Orientation="Horizontal">
+                                    <Label Text="{Binding SerialNumber }"
+                                           LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}"
+                                           HorizontalOptions="Start"
+                                           VerticalOptions="Center"
+                                           FontSize="Large" FontAttributes="Italic"
+                                           >
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label" Binding="{Binding IsActive}" Value="True">
+                                                <Setter Property="FontAttributes" Value="Bold" />
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
+                                    <Label Text="{Binding ConnectionState }"
+                                           LineBreakMode="NoWrap" Style="{DynamicResource ListItemDetailTextStyle}"
+                                           HorizontalOptions="EndAndExpand"
+                                           VerticalOptions="Center"
+                                           FontSize="Medium" FontAttributes="Italic"
+                                           >
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label" Binding="{Binding IsActive}" Value="True">
+                                                <Setter Property="FontAttributes" Value="Bold" />
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
+                                </StackLayout>
+                                <!--<Label Text="{Binding BatteryState }" LineBreakMode="NoWrap" Style="{DynamicResource ListItemDetailTextStyle}" FontSize="Small" />-->
+                                <StackLayout Orientation="Horizontal">
+                                    <Label Text="{Binding BatteryPercent, StringFormat='Battery level: {0}%' }"
+                                           LineBreakMode="NoWrap" Style="{DynamicResource ListItemDetailTextStyle}"
+                                           VerticalOptions="Center"
+                                           FontSize="Small" />
+                                    <Label Text="{Binding ChargeStatus , StringFormat='Charge Status: {0}' }"
+                                           LineBreakMode="NoWrap" Style="{DynamicResource ListItemDetailTextStyle}"
+                                           VerticalOptions="Center"
+                                           HorizontalOptions="EndAndExpand"
+                                           FontSize="Small" />
+                                </StackLayout>
+                                <!--<Label Text="{Binding Id }" LineBreakMode="NoWrap" Style="{DynamicResource ListItemDetailTextStyle}" FontSize="Micro" />-->
+                                <StackLayout IsVisible="True" Orientation="Horizontal">
+                                    <Button x:Name="makeActiveButton"  Text="Make Active" Command="{Binding MakeActiveCommand}" >
+                                        <Button.Triggers>
+                                            <DataTrigger TargetType="Button" Binding="{Binding Source={x:Reference makeActiveButton}, Path=IsEnabled}" Value="False">
+                                                <Setter Property="VisualElement.IsVisible" Value="false" />
+                                            </DataTrigger>
+                                        </Button.Triggers>
+                                    </Button>
+                                    <Label x:Name="activeLabel"  Text="Active" IsVisible="True" VerticalOptions="Center" TextColor="OrangeRed">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label" Binding="{Binding IsActive}" Value="False">
+                                                <Setter Property="VisualElement.IsVisible" Value="False" />
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
+                                    <Button Text="Disconnect"  Command="{Binding DisconnectCommand}" HorizontalOptions="EndAndExpand"/>
+                                </StackLayout>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Label Text="Readers will appear here as Transports are connected"
+                   LineBreakMode="WordWrap"
+                   Style="{DynamicResource ListItemDetailTextStyle}"
+                   FontSize="Medium" FontAttributes="Italic"
+                   HorizontalTextAlignment="Center"
+                   Margin="12,8,12,4"
+                   HorizontalOptions="CenterAndExpand"
+                   />
+            <Label Text="Tap on a Reader row to change the active Reader or disconnect it"
+                   LineBreakMode="WordWrap"
+                   Style="{DynamicResource ListItemDetailTextStyle}"
+                   FontSize="Medium" FontAttributes="Italic"
+                   HorizontalTextAlignment="Center"
+                   Margin="12,4,12,8"
+                   HorizontalOptions="CenterAndExpand"
+                   />
+        </StackLayout>
+    </ContentPage.Content>
+
+</ContentPage>

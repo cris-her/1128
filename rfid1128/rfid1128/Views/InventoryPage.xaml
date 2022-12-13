@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="rfid1128.Views.InventoryPage"
+             Title="Inventory">
+    
+    <ContentPage.Content>
+        <StackLayout Spacing="0"  Margin="0,0,0,8">
+
+            <!-- Summary Statistics-->
+            <StackLayout Spacing="0">
+                <Grid 
+                  RowSpacing="0" 
+                  ColumnSpacing="0"
+                  Margin="4, 4"
+                  HorizontalOptions="FillAndExpand"
+                >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Button Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="0" Text="Clear All" Command="{Binding ClearCommand}"
+                            HorizontalOptions="End" Padding="0"/>
+                    <Label Grid.Column="0" Grid.ColumnSpan="1" Grid.Row="0" Text="Uniques" FontSize="Large" FontAttributes="Bold"
+                       VerticalOptions="Center"
+                       HorizontalOptions="EndAndExpand"  HorizontalTextAlignment="End"/>
+                    <Label Grid.Column="1" Grid.ColumnSpan="1" Grid.Row="0" Text="{Binding Statistics.TotalUniqueCount}" FontSize="Large" FontAttributes="Bold"
+                       VerticalOptions="Center"
+                       HorizontalTextAlignment="Center" />
+
+                    <Label Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Text="Totals" FontSize="Micro" FontAttributes="Italic"/>
+
+                    <Label Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="2" Text="Last Scan" FontSize="Micro" FontAttributes="Italic" />
+
+                    <Label Grid.Column="0" Grid.Row="2" Text="Tags seen" />
+                    <Label Grid.Column="1" Grid.Row="2" Text="{Binding Statistics.TotalSeenCount}" HorizontalTextAlignment="Center" />
+                    <Label Grid.Column="2" Grid.Row="2" Text="Unique Tags" />
+                    <Label Grid.Column="3" Grid.Row="2" Text="{Binding Statistics.LastScanUniqueCount}" HorizontalTextAlignment="Center" />
+
+                    <Label Grid.Column="0" Grid.Row="3" Text="Scans" />
+                    <Label Grid.Column="1" Grid.Row="3" Text="{Binding Statistics.NumberOfScans}" HorizontalTextAlignment="Center" />
+                    <Label Grid.Column="2" Grid.Row="3" Text="Pass Total:" />
+                    <Label Grid.Column="3" Grid.Row="3" Text="{Binding Statistics.LastScanSeenCount}" HorizontalTextAlignment="Center" />
+                </Grid>
+            </StackLayout>
+
+            <ListView ItemsSource="{Binding Transponders}" CachingStrategy="RecycleElement" SeparatorVisibility="None" HasUnevenRows="true" ItemSelected="OnItemSelected"
+                      BackgroundColor="#f0f8fc" Margin="0,4">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.View>
+                                <StackLayout Orientation="Vertical" VerticalOptions="Fill"
+                                    HorizontalOptions="FillAndExpand" Spacing="0" Padding="4,0">
+                                    <Label Text="{Binding Identifier}" Margin="4, 4, 4, 0" FontSize="Medium"
+                                           LineBreakMode="TailTruncation"
+                                           HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" />
+                                    <StackLayout Orientation="Horizontal" Spacing="0"
+                                        HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand">
+                                        <!-- Channel, Phase, RSSI, Seen Count-->
+                                        <Label Text="{Binding NormalizedSignal, StringFormat='RSSI: {0,4:P0}'}" Margin="4, 0" FontSize="Micro" FontAttributes="Italic"
+                                               VerticalOptions="StartAndExpand" VerticalTextAlignment="Center" />
+                                        <Label Text="{Binding Phase, StringFormat='Ph: {0,3}'}" Margin="4, 0" FontSize="Micro" FontAttributes="Italic"
+                                               HorizontalOptions="End" HorizontalTextAlignment="End" VerticalOptions="StartAndExpand" VerticalTextAlignment="Center" />
+                                        <Label Text="{Binding ChannelFrequency, StringFormat='Ch: {0}Hz'}" Margin="8, 0" FontSize="Micro" FontAttributes="Italic"
+                                               HorizontalOptions="End" HorizontalTextAlignment="End" VerticalOptions="StartAndExpand" VerticalTextAlignment="Center" />
+                                        <Label Text="{Binding SeenCount, StringFormat='Seen: {0,3}'}" Margin="4, 0" FontSize="Micro" FontAttributes="Italic"
+                                               HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End" VerticalOptions="StartAndExpand" VerticalTextAlignment="Center" />
+                                    </StackLayout>
+                                </StackLayout>
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <StackLayout Spacing="0">
+                <!--Instruction-->
+                <Label Text="Apriete el gatillo del lector para escanear" FontSize="Small" 
+                           VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" HorizontalTextAlignment="Start" HorizontalOptions="Center"/>
+                
+                
+                <!--Output Power Configuration-->
+                <!--<StackLayout Margin="8,0" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                    <Label Text="Power" FontSize="Medium" 
+                           VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" HorizontalTextAlignment="Start" HorizontalOptions="Start"/>
+                    <Slider Maximum="{Binding Configuration.MaximumPower}" Minimum="{Binding Configuration.MinimumPower}" Value="{Binding Configuration.OutputPower }"
+                            VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand"
+                            MinimumTrackColor="#404040" MaximumTrackColor="#888888" ThumbColor="#808080"/>
+                    --><!--<Label Text="{Binding Configurations.OutputPower, StringFormat=' {0:N0}'}" FontSize="16" HeightRequest="20"
+                           VerticalTextAlignment="Center" WidthRequest="24" HorizontalTextAlignment="End" HorizontalOptions="End"/>--><!--
+                    <Label Text="{Binding Configuration.OutputPower, StringFormat='{0:D2} dBm'}" FontSize="Medium"
+                           VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" HorizontalTextAlignment="End" HorizontalOptions="End"/>
+                </StackLayout>-->
+                
+                
+                <!-- Other configuration settings -->
+                <!--<StackLayout Margin="8,0" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                    <StackLayout Spacing="0" HorizontalOptions="Start" Margin="0,0,8,0">
+                        <Label Text="Channel" FontSize="Small" HorizontalOptions="Start"/>
+                        <Switch IsToggled="{Binding Configuration.IncludeChannelFrequency }"/>
+                    </StackLayout>
+                    <StackLayout Spacing="0" HorizontalOptions="Start" Margin="0,0,8,0">
+                        <Label Text="Phase" FontSize="Small" HorizontalOptions="Start"/>
+                        <Switch IsToggled="{Binding Configuration.IncludePhase }"/>
+                    </StackLayout>
+                    <StackLayout Spacing="0" HorizontalOptions="StartAndExpand">
+                        <Label Text="RSSI" FontSize="Small" HorizontalOptions="Start"/>
+                        <Switch IsToggled="{Binding Configuration.IncludeRssi }"/>
+                    </StackLayout>
+                    <Button Text="Apply" Command="{Binding UpdateCommand}" HorizontalOptions="End"/>
+                </StackLayout>-->
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
